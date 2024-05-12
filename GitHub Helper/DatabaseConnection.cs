@@ -16,7 +16,7 @@ namespace GitHub_Helper
         {
             try
             {
-                var connectionString = $"Data Source={databaseName}.db";
+                var connectionString = $@"Data Source=..\..\..\{databaseName}.db";
                 _connection = new SqliteConnection(connectionString);
             }
             catch (Exception ex)

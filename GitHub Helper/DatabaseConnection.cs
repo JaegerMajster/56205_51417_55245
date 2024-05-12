@@ -49,8 +49,10 @@ namespace GitHub_Helper
             }
         }
 
-        public void ExecuteQueryAndPrintResults(string query)
+        public Dictionary<string, Tuple<string, string>> ExecuteQueryAndReturnResults(string query)
         {
+            Dictionary<string, Tuple<string, string>> gitCommands = new();
+
             using (var command = _connection.CreateCommand())
             {
                 command.CommandText = query;
@@ -62,10 +64,12 @@ namespace GitHub_Helper
                         var komenda = reader.GetString(1);
                         var opisKomendy = reader.GetString(2);
 
-                        Console.WriteLine($"ID: {id}, Komenda: {komenda}, Opis Komendy: {opisKomendy}");
+                        gitCommands[id.ToString()] = new Tuple<string, string>(komenda, opisKomendy);
                     }
                 }
             }
+
+            return gitCommands;
         }
     }
 }

@@ -5,9 +5,16 @@ dbConnection.OpenConnection();
 var results = dbConnection.ExecuteQueryAndReturnResults("SELECT * FROM KomendyGit");
 dbConnection.CloseConnection();
 
-foreach (var item in results)
+string userInput = "";
+while (userInput != "koniec")
 {
-    Console.WriteLine($"ID: {item.Key}, Komenda: {item.Value.Item1}, Opis: {item.Value.Item2}");
+    Console.WriteLine("Helper do komend git");
+    Console.WriteLine();
+    foreach (var item in results)
+    {
+        Console.WriteLine($"{item.Key}. {item.Value.Item2}. {item.Value.Item1}");
+    }
+    Console.WriteLine();
+    Console.WriteLine("Wpisz 'koniec' aby zakończyć.");
+    userInput = Console.ReadLine();
 }
-
-Console.ReadLine();

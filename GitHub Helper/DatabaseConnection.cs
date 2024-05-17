@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -49,9 +50,9 @@ namespace GitHub_Helper
             }
         }
 
-        public Dictionary<string, Tuple<string, string>> ExecuteQueryAndReturnResults(string query)
+        public Dictionary<string, Tuple<string, string, string, string>> ExecuteQueryAndReturnResults(string query)
         {
-            Dictionary<string, Tuple<string, string>> gitCommands = new();
+            Dictionary<string, Tuple<string, string, string, string>> gitCommands = new();
 
             using (var command = _connection.CreateCommand())
             {
@@ -63,8 +64,10 @@ namespace GitHub_Helper
                         var id = reader.GetInt32(0);
                         var komenda = reader.GetString(1);
                         var opisKomendy = reader.GetString(2);
+                        var skladnia = reader.GetString(3);
+                        var opis = reader.GetString(4);
 
-                        gitCommands[id.ToString()] = new Tuple<string, string>(komenda, opisKomendy);
+                        gitCommands[id.ToString()] = new Tuple<string, string, string, string>(komenda, opisKomendy, skladnia, opis);
                     }
                 }
             }

@@ -19,14 +19,6 @@ while (userInput != "koniec")
 
     userInput = Console.ReadLine();
 
-    while (string.IsNullOrWhiteSpace(userInput))
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("Nie wprowadziłeś żadnej czynności. Spróbuj ponownie.");
-        Console.ResetColor();
-        userInput = Console.ReadLine();
-    }
-
     while (!results.ContainsKey(userInput))
     {
         if (userInput == "koniec")
@@ -34,7 +26,7 @@ while (userInput != "koniec")
             break;
         }
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("Nie rozumiem Twojej czynności. Spróbuj użyć innych słów lub sprawdź pisownię.");
+        Console.WriteLine("Nie rozumiem Twojej czynności. Spróbuj użyć liczby z menu.");
         Console.ResetColor();
         userInput = Console.ReadLine();
     }

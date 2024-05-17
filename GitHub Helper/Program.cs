@@ -2,7 +2,7 @@
 
 var dbConnection = new DatabaseConnection("GitHub_Helper");
 dbConnection.OpenConnection();
-var results = dbConnection.ExecuteQueryAndReturnResults("SELECT * FROM KomendyGit");
+var resultsList = dbConnection.ExecuteQueriesAndReturnResults(new string[] { "SELECT * FROM KomendyGit", "SELECT * FROM ParametryKomend", "SELECT * FROM PrzykladyKomend" });
 dbConnection.CloseConnection();
 
 string userInput = "";
@@ -10,6 +10,7 @@ while (userInput != "koniec")
 {
     Console.WriteLine("Helper do komend git");
     Console.WriteLine();
+    var results = resultsList[0];
     foreach (var item in results)
     {
         Console.WriteLine($"{item.Key}. {item.Value.Item1}. {item.Value.Item2}");
@@ -26,7 +27,7 @@ while (userInput != "koniec")
             break;
         }
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("Nie rozumiem Twojej czynności. Spróbuj użyć liczby z menu.");
+        Console.WriteLine("Nie rozumiem Twojej czynności. Spróbuj użyć innych słów lub sprawdź pisownię.");
         Console.ResetColor();
         userInput = Console.ReadLine();
     }
@@ -47,6 +48,10 @@ while (userInput != "koniec")
 
         Console.WriteLine("Naciśnij dowolny klawisz, aby wrócić...");
         Console.ReadKey();
+
+        Console.Clear();
+        Console.WriteLine("\x1b[3J");
         Console.Clear();
     }
+
 }

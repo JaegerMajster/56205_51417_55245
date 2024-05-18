@@ -1,61 +1,115 @@
 ﻿using GitHub_Helper;
 
-var dbConnection = new DatabaseConnection("GitHub_Helper");
-dbConnection.OpenConnection();
-var resultsList = dbConnection.ExecuteQueriesAndReturnResults(new string[] { "SELECT * FROM KomendyGit", "SELECT * FROM ParametryKomend", "SELECT * FROM PrzykladyKomend" });
-dbConnection.CloseConnection();
+// Użycie klasy DatabaseConnection do połączenia z bazą danych i wykonania zapytań
+using (var dbConnection = new DatabaseConnection("GitHub_Helper"))
+{
+    // Wykonanie zapytań do bazy danych i otrzymanie wyników
+    var resultsList = dbConnection.ExecuteQueriesAndReturnResults("SELECT * FROM KomendyGit", "SELECT * FROM ParametryKomend", "SELECT * FROM PrzykladyKomend");
 
-string userInput = "";
-while (userInput != "koniec")
+    // Pętla umożliwiająca użytkownikowi wprowadzanie komend
+    string userInput = "";
+    while (userInput != "koniec")
+    {
+        // Wyświetlanie dostępnych komend
+        DisplayCommands(resultsList[0]);
+
+        // Pobieranie komendy od użytkownika
+        userInput = Console.ReadLine();
+
+        while (!resultsList[0].ContainsKey(userInput) && userInput != "koniec")
+        {
+            // Wyświetlanie komunikatu o błędzie, jeśli komenda nie jest dostępna
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Nie rozumiem Twojej czynności. Spróbuj użyć innych słów lub sprawdź pisownię.");
+            Console.ResetColor();
+            userInput = Console.ReadLine();
+        }
+
+        // Sprawdzanie, czy wprowadzona komenda jest dostępna
+        if (resultsList[0].ContainsKey(userInput))
+        {
+            var commandDetails = resultsList[0][userInput];
+            // Wyświetlanie szczegółów komendy
+            DisplayCommandDetails(userInput, resultsList);
+        }
+
+    }
+}
+
+// Metoda wyświetlająca dostępne komendy dla użytkownika
+static void DisplayCommands(Dictionary<string, Tuple<string, string, string, string>> commands)
 {
     Console.WriteLine("Helper do komend git");
     Console.WriteLine();
-    var results = resultsList[0];
-    foreach (var item in results)
+    foreach (var item in commands)
     {
-        var komenda = item.Value.Item1;
-        komenda = komenda.PadRight(20);
-        var indeks = item.Key;
-        indeks = indeks.PadLeft(2);
-        Console.WriteLine($"{indeks} {komenda} {item.Value.Item2}");
+        Console.WriteLine($"{item.Key,2}.{item.Value.Item1,-20} {item.Value.Item2}");
     }
     Console.WriteLine();
     Console.WriteLine("Wpisz 'koniec' aby zakończyć.");
+}
 
-    userInput = Console.ReadLine();
+// Metoda wyświetlająca szczegóły konkretnej komendy
+static void DisplayCommandDetails(string command, List<Dictionary<string, Tuple<string, string, string, string>>> resultsList)
+{
+    // Czyszczenie konsoli
+    DisplayClear();
 
-    while (!results.ContainsKey(userInput))
+    // Wyświetlanie parametrów komendy
+    DisplayCommandParameters(command, resultsList[1]);
+    // Wyświetlanie przykładów użycia komendy
+    DisplayCommandExamples(command, resultsList[2]);
+
+    // Pobieranie opisu i składni komendy
+    string desc = resultsList[0][command].Item4;
+    string syntax = resultsList[0][command].Item3;
+    // Wyświetlanie opisu i składni komendy
+    Console.WriteLine(desc);
+    Console.WriteLine();
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.WriteLine($"Składnia:\n {syntax}");
+    Console.ResetColor();
+
+    // Wyświetlanie instrukcji dla użytkownika
+    Console.WriteLine("Naciśnij dowolny klawisz, aby wrócić...");
+    Console.ReadKey();
+
+    // Czyszczenie konsoli
+    DisplayClear();
+}
+
+// Metoda wyświetlająca parametry komendy
+static void DisplayCommandParameters(string command, Dictionary<string, Tuple<string, string, string, string>> parameters)
+{
+    foreach (var item in parameters.Where(item => item.Value.Item1 == command))
     {
-        if (userInput == "koniec")
-        {
-            break;
-        }
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("Nie rozumiem Twojej czynności. Spróbuj użyć innych słów lub sprawdź pisownię.");
-        Console.ResetColor();
-        userInput = Console.ReadLine();
+        if (!string.IsNullOrWhiteSpace(item.Value.Item2))
+            Console.WriteLine($"Parametr 1:\n{item.Value.Item2}");
+        if (!string.IsNullOrWhiteSpace(item.Value.Item3))
+            Console.WriteLine($"Parametr 2:\n{item.Value.Item3}");
+        if (!string.IsNullOrWhiteSpace(item.Value.Item4))
+            Console.WriteLine($"Opis Parametru:\n{item.Value.Item4}");
     }
+}
 
-    if (results.ContainsKey(userInput))
+// Metoda wyświetlająca przykłady użycia komendy
+static void DisplayCommandExamples(string command, Dictionary<string, Tuple<string, string, string, string>> examples)
+{
+    foreach (var item in examples.Where(item => item.Value.Item1 == command))
     {
-        Console.Clear();
-        Console.WriteLine("\x1b[3J");
-        Console.Clear();
-
-        string desc = results[userInput].Item4;
-        string syntax = results[userInput].Item3;
-        Console.WriteLine(desc);
-        Console.WriteLine();
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine($"Składnia:\n {syntax}");
-        Console.ResetColor();
-
-        Console.WriteLine("Naciśnij dowolny klawisz, aby wrócić...");
-        Console.ReadKey();
-
-        Console.Clear();
-        Console.WriteLine("\x1b[3J");
-        Console.Clear();
+        if (!string.IsNullOrWhiteSpace(item.Value.Item2))
+            Console.WriteLine($"Opis przed:\n{item.Value.Item2}");
+        if (!string.IsNullOrWhiteSpace(item.Value.Item3))
+            Console.WriteLine($"Kod:\n{item.Value.Item3}");
+        if (!string.IsNullOrWhiteSpace(item.Value.Item4))
+            Console.WriteLine($"Opis po:\n{item.Value.Item4}");
     }
+}
 
+// Metoda czyszcząca konsolę
+static void DisplayClear()
+{
+    Console.Clear();
+    Console.WriteLine("\x1b[3J");
+    Console.Clear();
 }

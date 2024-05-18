@@ -60,14 +60,11 @@ static void DisplayCommandDetails(string command, List<Dictionary<string, Tuple<
     // Wyświetlanie przykładów użycia komendy
     DisplayCommandExamples(command, resultsList[2]);
 
-    // Pobieranie opisu i składni komendy
-    string desc = resultsList[0][command].Item4;
-    string syntax = resultsList[0][command].Item3;
-    // Wyświetlanie opisu i składni komendy
-    Console.WriteLine(desc);
+    // Pobieranie i wyświetlanie opisu oraz składni komendy
+    Console.WriteLine($"{resultsList[0][command].Item4}");
     Console.WriteLine();
     Console.ForegroundColor = ConsoleColor.Green;
-    Console.WriteLine($"Składnia:\n {syntax}");
+    Console.WriteLine($"Składnia:\n {resultsList[0][command].Item3}");
     Console.ResetColor();
 
     // Wyświetlanie instrukcji dla użytkownika

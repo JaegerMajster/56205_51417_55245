@@ -7,7 +7,7 @@ using (var dbConnection = new DatabaseConnection("GitHub_Helper"))
     var resultsList = dbConnection.ExecuteQueriesAndReturnResults("SELECT * FROM KomendyGit", "SELECT * FROM ParametryKomend", "SELECT * FROM PrzykladyKomend");
 
     // Pętla umożliwiająca użytkownikowi wprowadzanie komend
-    string userInput = "";
+    string ?userInput = "";
     while (userInput != "koniec")
     {
         // Wyświetlanie dostępnych komend
@@ -26,9 +26,9 @@ using (var dbConnection = new DatabaseConnection("GitHub_Helper"))
         }
 
         // Sprawdzanie, czy wprowadzona komenda jest dostępna
-        if (resultsList[0].ContainsKey(userInput))
+        if (resultsList[0].TryGetValue(userInput, out Tuple<string, string, string, string>? value))
         {
-            var commandDetails = resultsList[0][userInput];
+            var commandDetails = value;
             // Wyświetlanie szczegółów komendy
             DisplayCommandDetails(userInput, resultsList);
         }

@@ -16,7 +16,7 @@ using (var dbConnection = new DatabaseConnection("GitHub_Helper"))
         // Pobieranie komendy od użytkownika
         userInput = Console.ReadLine();
 
-        while (!resultsList[0].ContainsKey(userInput) && userInput != "koniec")
+        while (userInput != null && !resultsList[0].ContainsKey(userInput) && userInput != "koniec")
         {
             // Wyświetlanie komunikatu o błędzie, jeśli komenda nie jest dostępna
             Console.ForegroundColor = ConsoleColor.Red;
@@ -26,7 +26,7 @@ using (var dbConnection = new DatabaseConnection("GitHub_Helper"))
         }
 
         // Sprawdzanie, czy wprowadzona komenda jest dostępna
-        if (resultsList[0].TryGetValue(userInput, out Tuple<string, string, string, string>? value))
+        if (userInput != null && resultsList[0].TryGetValue(userInput, out Tuple<string, string, string, string>? value))
         {
             var commandDetails = value;
             // Wyświetlanie szczegółów komendy

@@ -63,5 +63,6 @@ public class DatabaseConnection : IDisposable
     public void Dispose()
     {
         _connection?.Close();
+        GC.SuppressFinalize(this);
     }
 }

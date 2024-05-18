@@ -13,7 +13,11 @@ while (userInput != "koniec")
     var results = resultsList[0];
     foreach (var item in results)
     {
-        Console.WriteLine($"{item.Key}. {item.Value.Item1}. {item.Value.Item2}");
+        var komenda = item.Value.Item1;
+        komenda = komenda.PadRight(20);
+        var indeks = item.Key;
+        indeks = indeks.PadLeft(2);
+        Console.WriteLine($"{indeks} {komenda} {item.Value.Item2}");
     }
     Console.WriteLine();
     Console.WriteLine("Wpisz 'koniec' aby zakończyć.");

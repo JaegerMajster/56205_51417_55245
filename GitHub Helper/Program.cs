@@ -1,4 +1,6 @@
-﻿using GitHub_Helper;
+﻿using System;
+using System.Drawing;
+using GitHub_Helper;
 
 // Użycie klasy DatabaseConnection do połączenia z bazą danych i wykonania zapytań
 using (var dbConnection = new DatabaseConnection("GitHub_Helper"))
@@ -43,7 +45,12 @@ static void DisplayCommands(Dictionary<string, Tuple<string, string, string, str
     Console.WriteLine();
     foreach (var item in commands)
     {
-        Console.WriteLine($"{item.Key,2}.{item.Value.Item1,-20} {item.Value.Item2}");
+        Console.Write($"{item.Key,2}.");
+        Console.ForegroundColor = ConsoleColor.DarkGreen;
+        Console.Write($"{item.Value.Item1, -20}");
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine(item.Value.Item2);
+        Console.ResetColor();
     }
     Console.WriteLine();
     Console.WriteLine("Wpisz 'koniec' aby zakończyć.");
@@ -61,11 +68,19 @@ static void DisplayCommandDetails(string command, List<Dictionary<string, Tuple<
     DisplayCommandExamples(command, resultsList[2]);
 
     // Pobieranie i wyświetlanie opisu oraz składni komendy
+    Console.ForegroundColor= ConsoleColor.DarkGreen;
+    Console.WriteLine("Składnia:");
+    Console.WriteLine();
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine(resultsList[0][command].Item3);
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
+    Console.WriteLine();
+    Console.WriteLine("Opis:");
+    Console.ResetColor();
+    Console.WriteLine();
     Console.WriteLine($"{resultsList[0][command].Item4}");
     Console.WriteLine();
-    Console.ForegroundColor = ConsoleColor.Green;
-    Console.WriteLine($"Składnia:\n {resultsList[0][command].Item3}");
-    Console.ResetColor();
+   
 
     // Wyświetlanie instrukcji dla użytkownika
     Console.WriteLine("Naciśnij dowolny klawisz, aby wrócić...");
@@ -78,14 +93,19 @@ static void DisplayCommandDetails(string command, List<Dictionary<string, Tuple<
 // Metoda wyświetlająca parametry komendy
 static void DisplayCommandParameters(string command, Dictionary<string, Tuple<string, string, string, string>> parameters)
 {
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
+    Console.WriteLine($"Opcje:");
+    Console.ResetColor();
+    Console.WriteLine();
     foreach (var item in parameters.Where(item => item.Value.Item1 == command))
     {
         if (!string.IsNullOrWhiteSpace(item.Value.Item2))
-            Console.WriteLine($"Parametr 1:\n{item.Value.Item2}");
+            Console.WriteLine($"{item.Value.Item2}");
         if (!string.IsNullOrWhiteSpace(item.Value.Item3))
-            Console.WriteLine($"Parametr 2:\n{item.Value.Item3}");
+            Console.WriteLine($"{item.Value.Item3}");
         if (!string.IsNullOrWhiteSpace(item.Value.Item4))
-            Console.WriteLine($"Opis Parametru:\n{item.Value.Item4}");
+            Console.WriteLine($"{item.Value.Item4}");
+        Console.WriteLine();
     }
 }
 
@@ -100,6 +120,7 @@ static void DisplayCommandExamples(string command, Dictionary<string, Tuple<stri
             Console.WriteLine($"Kod:\n{item.Value.Item3}");
         if (!string.IsNullOrWhiteSpace(item.Value.Item4))
             Console.WriteLine($"Opis po:\n{item.Value.Item4}");
+        Console.WriteLine();
     }
 }
 

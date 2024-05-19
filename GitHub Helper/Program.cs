@@ -42,6 +42,7 @@ using (var dbConnection = new DatabaseConnection("GitHub_Helper"))
 static void DisplayCommands(Dictionary<string, Tuple<string, string, string, string>> commands)
 {
     Console.WriteLine("Helper do komend git");
+    Console.WriteLine("Wpisz numer komendy aby wyświetlić jej szczegóły");
     Console.WriteLine();
     foreach (var item in commands)
     {

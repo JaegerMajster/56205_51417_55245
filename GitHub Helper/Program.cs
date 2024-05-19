@@ -69,14 +69,14 @@ static void DisplayCommandDetails(string command, List<Dictionary<string, Tuple<
     DisplayCommandExamples(command, resultsList[2]);
 
     // Pobieranie i wyświetlanie opisu oraz składni komendy
-    Console.ForegroundColor= ConsoleColor.DarkGreen;
-    Console.WriteLine("Składnia:");
+    Console.ForegroundColor= ConsoleColor.Red;
+    Console.WriteLine("SKŁADNIA");
     Console.WriteLine();
     Console.ForegroundColor = ConsoleColor.Yellow;
     Console.WriteLine(resultsList[0][command].Item3);
-    Console.ForegroundColor = ConsoleColor.DarkGreen;
     Console.WriteLine();
-    Console.WriteLine("Opis:");
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine("OPIS");
     Console.ResetColor();
     Console.WriteLine();
     Console.WriteLine($"{resultsList[0][command].Item4}");
@@ -94,33 +94,46 @@ static void DisplayCommandDetails(string command, List<Dictionary<string, Tuple<
 // Metoda wyświetlająca parametry komendy
 static void DisplayCommandParameters(string command, Dictionary<string, Tuple<string, string, string, string>> parameters)
 {
-    Console.ForegroundColor = ConsoleColor.DarkGreen;
-    Console.WriteLine($"Opcje:");
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine($"OPCJE");
     Console.ResetColor();
     Console.WriteLine();
     foreach (var item in parameters.Where(item => item.Value.Item1 == command))
     {
         if (!string.IsNullOrWhiteSpace(item.Value.Item2))
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"{item.Value.Item2}");
+            Console.ResetColor();
         if (!string.IsNullOrWhiteSpace(item.Value.Item3))
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"{item.Value.Item3}");
+            Console.ResetColor();
         if (!string.IsNullOrWhiteSpace(item.Value.Item4))
             Console.WriteLine($"{item.Value.Item4}");
-        Console.WriteLine();
+            Console.WriteLine();
     }
 }
 
 // Metoda wyświetlająca przykłady użycia komendy
 static void DisplayCommandExamples(string command, Dictionary<string, Tuple<string, string, string, string>> examples)
 {
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine("PRZYKŁADY");
+    Console.ResetColor();
+    Console.WriteLine();
+
     foreach (var item in examples.Where(item => item.Value.Item1 == command))
     {
         if (!string.IsNullOrWhiteSpace(item.Value.Item2))
-            Console.WriteLine($"Opis przed:\n{item.Value.Item2}");
+            Console.ForegroundColor= ConsoleColor.DarkGreen;
+            Console.WriteLine($"{item.Value.Item2}\n");
+            Console.ResetColor();
         if (!string.IsNullOrWhiteSpace(item.Value.Item3))
-            Console.WriteLine($"Kod:\n{item.Value.Item3}");
+            Console.ForegroundColor= ConsoleColor.Yellow;
+            Console.WriteLine($"{item.Value.Item3}\n");
+            Console.ResetColor();
         if (!string.IsNullOrWhiteSpace(item.Value.Item4))
-            Console.WriteLine($"Opis po:\n{item.Value.Item4}");
+            Console.WriteLine($"{item.Value.Item4}\n");
         Console.WriteLine();
     }
 }

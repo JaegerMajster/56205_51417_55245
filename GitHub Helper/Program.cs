@@ -169,16 +169,12 @@ static void DisplayCommandParameters(string command, Dictionary<string, Tuple<st
     Console.WriteLine();
     foreach (var item in parameters.Where(item => item.Value.Item1 == command))
     {
-        if (!string.IsNullOrWhiteSpace(item.Value.Item2))
-            Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"{item.Value.Item2}");
-        Console.ResetColor();
         if (!string.IsNullOrWhiteSpace(item.Value.Item3))
-            Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine($"{item.Value.Item3}");
+            Console.WriteLine($"{item.Value.Item3}");
         Console.ResetColor();
-        if (!string.IsNullOrWhiteSpace(item.Value.Item4))
-            Console.WriteLine($"{item.Value.Item4}");
+        Console.WriteLine($"{item.Value.Item4}");
         Console.WriteLine();
     }
 }

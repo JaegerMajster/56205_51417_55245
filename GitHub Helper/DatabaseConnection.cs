@@ -1,5 +1,4 @@
-﻿// Importowanie potrzebnych bibliotek
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 
 namespace GitHub_Helper;
 

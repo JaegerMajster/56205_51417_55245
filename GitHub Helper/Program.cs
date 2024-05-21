@@ -20,7 +20,7 @@ using (var dbConnection = new DatabaseConnection("GitHub_Helper"))
         {
             // Wyświetlanie komunikatu o błędzie, jeśli komenda nie jest dostępna
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Nie rozumiem Twojej czynności. Spróbuj użyć numer z menu.");
+            Console.WriteLine("Niepoprawna komenda. Wpisz numer komendy lub słowo: koniec");
             Console.ResetColor();
             userInput = Console.ReadLine();
         }
@@ -119,9 +119,10 @@ static void DisplayCommandDetails(string command, List<Dictionary<string, Tuple<
                     break;
             }
             Console.Write("Wciśnij cokolwiek, aby wrócić...");
-            Console.ReadLine();
+            Console.ReadKey();
             DisplayClear();
         }
+
         else return;
 
     } while (detailInput != "");

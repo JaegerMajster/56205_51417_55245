@@ -3,36 +3,42 @@
 // Użycie klasy DatabaseConnection do połączenia z bazą danych i wykonania zapytań
 using (var dbConnection = new DatabaseConnection("GitHub_Helper"))
 {
-    // Wykonanie zapytań do bazy danych i otrzymanie wyników
-    var resultsList = dbConnection.ExecuteQueriesAndReturnResults("SELECT * FROM KomendyGit", "SELECT * FROM ParametryKomend", "SELECT * FROM PrzykladyKomend");
-
-    // Pętla umożliwiająca użytkownikowi wprowadzanie komend
-    string? userInput = "";
-    while (userInput != "koniec")
+    try
     {
-        // Wyświetlanie dostępnych komend
-        DisplayCommands(resultsList[0]);
+        // Wykonanie zapytań do bazy danych i otrzymanie wyników
+        var resultsList = dbConnection.ExecuteQueriesAndReturnResults("SELECT * FROM KomendyGit ORDER BY ID ASC", "SELECT * FROM ParametryKomend", "SELECT * FROM PrzykladyKomend");
 
-        // Pobieranie komendy od użytkownika
-        userInput = Console.ReadLine();
-
-        while (userInput != null && !resultsList[0].ContainsKey(userInput) && userInput != "koniec")
+        // Pętla umożliwiająca użytkownikowi wprowadzanie komend
+        string? userInput = "";
+        while (userInput != "koniec")
         {
-            // Wyświetlanie komunikatu o błędzie, jeśli komenda nie jest dostępna
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Niepoprawna komenda. Wpisz numer komendy lub słowo: koniec");
-            Console.ResetColor();
+            // Wyświetlanie dostępnych komend
+            DisplayCommands(resultsList[0]);
+
+            // Pobieranie komendy od użytkownika
             userInput = Console.ReadLine();
-        }
 
-        // Sprawdzanie, czy wprowadzona komenda jest dostępna
-        if (userInput != null && resultsList[0].TryGetValue(userInput, out Tuple<string, string, string, string>? value))
-        {
-            var commandDetails = value;
-            // Wyświetlanie szczegółów komendy
-            DisplayCommandDetails(userInput, resultsList);
-        }
+            while (userInput != null && !resultsList[0].ContainsKey(userInput) && userInput != "koniec")
+            {
+                // Wyświetlanie komunikatu o błędzie, jeśli komenda nie jest dostępna
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("Niepoprawna komenda. Wpisz numer komendy lub słowo 'koniec': ");
+                Console.ResetColor();
+                userInput = Console.ReadLine();
+            }
 
+            // Sprawdzanie, czy wprowadzona komenda jest dostępna
+            if (userInput != null && resultsList[0].TryGetValue(userInput, out Tuple<string, string, string, string>? value))
+            {
+                var commandDetails = value;
+                // Wyświetlanie szczegółów komendy
+                DisplayCommandDetails(userInput, resultsList);
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Wystąpił błąd: {ex.Message}");
     }
 }
 
@@ -51,7 +57,7 @@ static void DisplayCommands(Dictionary<string, Tuple<string, string, string, str
         Console.ResetColor();
     }
     Console.WriteLine();
-    Console.Write("Wpisz numer komendy aby wyświetlić jej szczegóły lub 'koniec' aby zakończyć: ");
+    Console.Write("Wpisz numer komendy aby wyświetlić jej szczegóły lub słowo 'koniec' aby zakończyć: ");
 }
 
 // Metoda wyświetlająca szczegóły konkretnej komendy

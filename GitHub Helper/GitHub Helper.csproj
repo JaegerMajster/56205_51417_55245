@@ -9,6 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="GitHub_Helper.db" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="GitHub_Helper.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CustomToolNamespace>GitHub_Helper</CustomToolNamespace>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.4" />
   </ItemGroup>
 

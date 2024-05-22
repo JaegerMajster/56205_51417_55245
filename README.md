@@ -10,12 +10,16 @@ U¿ytkownik wprowadza numer komendy, któr¹ chce u¿yæ, a program wyœwietla szczegó
 
 Jeœli u¿ytkownik wprowadzi niepoprawn¹ komendê, program wyœwietli komunikat o b³êdzie i poprosi o wprowadzenie poprawnej komendy.
 
-## U¿ycie
+## Uruchomienie aplikacji
 
-1. Uruchom program.
-2. Zobaczysz listê dostêpnych komend Git.
-3. Wpisz numer komendy, aby wyœwietliæ jej szczegó³y.
-4. Jeœli chcesz zakoñczyæ, wpisz s³owo 'koniec'.
+Aby uruchomiæ aplikacjê, wykonaj nastêpuj¹ce kroki:
+
+1. Sklonuj repozytorium lub pobierz pliki z repozytorium GitHub.
+2. PrzejdŸ do folderu `publish/win-x64`.
+3. Uruchom plik `GitHub_Helper.exe`.
+4. Zobaczysz listê dostêpnych komend Git.
+5. Wpisz numer komendy, aby wyœwietliæ jej szczegó³y.
+6. Jeœli chcesz zakoñczyæ, wpisz s³owo 'koniec'.
 
 ## Architektura
 
@@ -23,4 +27,4 @@ Program korzysta z klasy `DatabaseConnection` do nawi¹zania po³¹czenia z baz¹ da
 
 ## Wymagania
 
-Program wymaga dostêpu do bazy danych SQLite z tabelami `KomendyGit`, `ParametryKomend` i `PrzykladyKomend`. Baza danych jest obs³ugiwana przez klasê `DatabaseConnection`, która otwiera po³¹czenie z baz¹ danych, wykonuje zapytania SQL i zwraca wyniki. Dodatkowo, program korzysta z pakietu NuGet SQLite w Visual Studio do obs³ugi bazy danych SQLite.
+Program wymaga dostêpu do bazy danych SQLite z tabelami `KomendyGit`, `ParametryKomend` i `PrzykladyKomend`. Baza danych jest obs³ugiwana przez klasê `DatabaseConnection`, która otwiera po³¹czenie z baz¹ danych, wykonuje zapytania SQL i zwraca wyniki.

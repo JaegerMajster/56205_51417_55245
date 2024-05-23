@@ -12,7 +12,7 @@ public class DatabaseConnection : IDisposable
     public DatabaseConnection(string databaseName)
     {
         // Tworzenie łańcucha połączenia z bazą danych
-        var connectionString = $@"Data Source=..\..\..\{databaseName}.db";
+        var connectionString = $@"Data Source={databaseName}.db";
         // Inicjalizacja połączenia z bazą danych
         _connection = new SqliteConnection(connectionString);
         // Otwarcie połączenia z bazą danych

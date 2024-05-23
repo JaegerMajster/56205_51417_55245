@@ -176,7 +176,6 @@ static void DisplayCommandParameters(string command, Dictionary<string, Tuple<st
         Console.ResetColor();
         string OpisParametru = WordWrap(item.Value.Item4);
         Console.WriteLine(OpisParametru);
-        Console.WriteLine();
     }
 }
 
@@ -204,12 +203,13 @@ static void DisplayCommandExamples(string command, Dictionary<string, Tuple<stri
     }
 }
 
+// Metoda łamiąca text na szerokość okna terminala pomniejszoną o 5 znaków
 static string WordWrap(string text)
 {
     string[] akapity = text.Split('\n');
-    string result = "";
+    string result = "  ";
     int lineLength = 0;
-    int maxLength = 110;
+    int maxLength = Console.WindowWidth - 5;
     foreach (string akapit in akapity)
     {
         string[] words = akapit.Split(' ');
@@ -219,16 +219,18 @@ static string WordWrap(string text)
         {
             if (lineLength + word.Length > maxLength)
             {
-                result += Environment.NewLine;
+                result += Environment.NewLine + "  ";
                 lineLength = 0;
             }
 
             result += word + " ";
             lineLength += word.Length + 1;
         }
+        result += Environment.NewLine + "  ";
+        lineLength = 0;
     }
 
-    return result.Trim();
+    return result;
 }
 
     // Metoda czyszcząca konsolę

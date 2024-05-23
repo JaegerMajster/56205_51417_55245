@@ -174,7 +174,8 @@ static void DisplayCommandParameters(string command, Dictionary<string, Tuple<st
         if (!string.IsNullOrWhiteSpace(item.Value.Item3))
             Console.WriteLine($"{item.Value.Item3}");
         Console.ResetColor();
-        Console.WriteLine($"{item.Value.Item4}");
+        string OpisParametru = WordWrap(item.Value.Item4);
+        Console.WriteLine(OpisParametru);
         Console.WriteLine();
     }
 }
@@ -203,8 +204,35 @@ static void DisplayCommandExamples(string command, Dictionary<string, Tuple<stri
     }
 }
 
-// Metoda czyszcząca konsolę
-static void DisplayClear()
+static string WordWrap(string text)
+{
+    string[] akapity = text.Split('\n');
+    string result = "";
+    int lineLength = 0;
+    int maxLength = 110;
+    foreach (string akapit in akapity)
+    {
+        string[] words = akapit.Split(' ');
+        
+
+        foreach (string word in words)
+        {
+            if (lineLength + word.Length > maxLength)
+            {
+                result += Environment.NewLine;
+                lineLength = 0;
+            }
+
+            result += word + " ";
+            lineLength += word.Length + 1;
+        }
+    }
+
+    return result.Trim();
+}
+
+    // Metoda czyszcząca konsolę
+    static void DisplayClear()
 {
     Console.Clear();
     Console.WriteLine("\x1b[3J");

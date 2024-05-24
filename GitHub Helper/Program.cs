@@ -1,5 +1,4 @@
 ﻿using GitHub_Helper;
-using System.Text;
 
 // Główna funkcja programu
 using (var dbConnection = new DatabaseConnection("GitHub_Helper"))

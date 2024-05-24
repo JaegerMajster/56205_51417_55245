@@ -155,16 +155,20 @@ static void DisplayCommandExamples(string command, Dictionary<string, Tuple<stri
     foreach (var item in examples.Where(item => item.Value.Item1 == command))
     {
         if (!string.IsNullOrWhiteSpace(item.Value.Item2))
+        {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-        Console.WriteLine($"{item.Value.Item2}\n");
-        Console.ResetColor();
+            Console.WriteLine($"{item.Value.Item2}\n");
+            Console.ResetColor();
+        }
         if (!string.IsNullOrWhiteSpace(item.Value.Item3))
+        {
             Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine($"{item.Value.Item3}\n");
-        Console.ResetColor();
+            Console.WriteLine($"{item.Value.Item3}\n");
+            Console.ResetColor();
+        }
         if (!string.IsNullOrWhiteSpace(item.Value.Item4))
-            Console.WriteLine($"{item.Value.Item4}\n");
-        Console.WriteLine();
+            Console.WriteLine($"{item.Value.Item4}\n\n");
+           
     }
 }
 // Funkcja do zawijania tekstu na podstawie szerokości konsoli

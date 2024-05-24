@@ -171,11 +171,8 @@ static void DisplayCommandParameters(string command, Dictionary<string, Tuple<st
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"{item.Value.Item2}");
-        if (!string.IsNullOrWhiteSpace(item.Value.Item3))
-            Console.WriteLine($"{item.Value.Item3}");
         Console.ResetColor();
-        string OpisParametru = WordWrap(item.Value.Item4);
-        Console.WriteLine(OpisParametru);
+        Console.WriteLine(WordWrap(item.Value.Item4));
     }
 }
 

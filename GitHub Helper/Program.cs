@@ -1,40 +1,12 @@
 ﻿using GitHub_Helper;
 
-// Użycie klasy DatabaseConnection do połączenia z bazą danych i wykonania zapytań
+// Główna funkcja programu
 using (var dbConnection = new DatabaseConnection("GitHub_Helper"))
 {
     try
     {
-        // Wykonanie zapytań do bazy danych i otrzymanie wyników
         var resultsList = dbConnection.ExecuteQueriesAndReturnResults("SELECT * FROM KomendyGit ORDER BY ID ASC", "SELECT * FROM ParametryKomend", "SELECT * FROM PrzykladyKomend");
-
-        // Pętla umożliwiająca użytkownikowi wprowadzanie komend
-        string? userInput = "";
-        while (userInput != "koniec")
-        {
-            // Wyświetlanie dostępnych komend
-            DisplayCommands(resultsList[0]);
-
-            // Pobieranie komendy od użytkownika
-            userInput = Console.ReadLine();
-
-            while (userInput != null && !resultsList[0].ContainsKey(userInput) && userInput != "koniec")
-            {
-                // Wyświetlanie komunikatu o błędzie, jeśli komenda nie jest dostępna
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("Niepoprawna komenda. Wpisz numer komendy lub słowo 'koniec': ");
-                Console.ResetColor();
-                userInput = Console.ReadLine();
-            }
-
-            // Sprawdzanie, czy wprowadzona komenda jest dostępna
-            if (userInput != null && resultsList[0].TryGetValue(userInput, out Tuple<string, string, string, string>? value))
-            {
-                var commandDetails = value;
-                // Wyświetlanie szczegółów komendy
-                DisplayCommandDetails(userInput, resultsList);
-            }
-        }
+        ProcessUserInput(resultsList);
     }
     catch (Exception ex)
     {
@@ -42,11 +14,32 @@ using (var dbConnection = new DatabaseConnection("GitHub_Helper"))
     }
 }
 
-// Metoda wyświetlająca dostępne komendy dla użytkownika
+// Funkcja do przetwarzania wejścia użytkownika
+static void ProcessUserInput(List<Dictionary<string, Tuple<string, string, string, string>>> resultsList)
+{
+    string userInput;
+    do
+    {
+        DisplayCommands(resultsList[0]);
+        userInput = Console.ReadLine() ?? "";
+
+        if (resultsList[0].TryGetValue(userInput, out Tuple<string, string, string, string>? value))
+        {
+            DisplayCommandDetails(userInput, resultsList);
+        }
+        else if (userInput != "koniec")
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Nie rozpoznano wprowadzonej komendy. Proszę wpisać numer komendy z listy dostępnych komend lub wpisz 'koniec', aby zakończyć program: "); ;
+            Console.ResetColor();
+        }
+    }
+    while (userInput != "koniec");
+}
+// Funkcja do wyświetlania dostępnych komend
 static void DisplayCommands(Dictionary<string, Tuple<string, string, string, string>> commands)
 {
-    Console.WriteLine("Helper do komend git");
-    Console.WriteLine();
+    Console.WriteLine("Helper do komend git\n");
     foreach (var item in commands)
     {
         Console.Write($"{item.Key,2}.");
@@ -56,31 +49,24 @@ static void DisplayCommands(Dictionary<string, Tuple<string, string, string, str
         Console.WriteLine(item.Value.Item2);
         Console.ResetColor();
     }
-    Console.WriteLine();
-    Console.Write("Wpisz numer komendy aby wyświetlić jej szczegóły lub słowo 'koniec' aby zakończyć: ");
+    Console.Write("\nNapisz numer komendy, aby zobaczyć więcej szczegółów na jej temat, lub wpisz 'koniec', aby zakończyć program: ");
 }
-
-// Metoda wyświetlająca szczegóły konkretnej komendy
+// Funkcja do wyświetlania szczegółów wybranej komendy
 static void DisplayCommandDetails(string command, List<Dictionary<string, Tuple<string, string, string, string>>> resultsList)
 {
-    // Czyszczenie konsoli
     DisplayClear();
-
-    // Wyświetlanie menu szczegółów komendy
     string? detailInput = "";
+
     do
     {
         Console.ForegroundColor = ConsoleColor.DarkGreen;
         Console.WriteLine($"{resultsList[0][command].Item1}");
         Console.ResetColor();
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine($"{resultsList[0][command].Item2}");
+        Console.WriteLine($"{resultsList[0][command].Item2}\n");
         Console.ResetColor();
-        Console.WriteLine();
-        Console.WriteLine($"Menu komendy:");
-        Console.WriteLine();
+        Console.WriteLine("Menu komendy:\n");
 
-        // Tworzenie listy dostępnych szczegółów komendy
         var availableDetails = new List<string>();
         if (!string.IsNullOrWhiteSpace(resultsList[0][command].Item4))
             availableDetails.Add("Opis");
@@ -91,7 +77,6 @@ static void DisplayCommandDetails(string command, List<Dictionary<string, Tuple<
         if (!string.IsNullOrWhiteSpace(resultsList[0][command].Item3))
             availableDetails.Add("Składnia");
 
-        // Wyświetlanie dostępnych szczegółów komendy z automatyczną numeracją
         for (int i = 0; i < availableDetails.Count; i++)
         {
             Console.Write($"{i + 1}. ");
@@ -100,15 +85,11 @@ static void DisplayCommandDetails(string command, List<Dictionary<string, Tuple<
             Console.ResetColor();
         }
 
-        Console.WriteLine();
-        Console.Write("Wybierz szczegół komendy do wyświetlenia: ");
-
+        Console.Write("\nWybierz szczegół komendy do wyświetlenia: ");
         detailInput = Console.ReadLine();
-        DisplayClear();
-
-        // Sprawdzanie, czy wprowadzony numer szczegółu jest prawidłowy
         if (int.TryParse(detailInput, out int detailNumber) && detailNumber > 0 && detailNumber <= availableDetails.Count)
         {
+            DisplayClear();
             switch (availableDetails[detailNumber - 1])
             {
                 case "Opis":
@@ -128,45 +109,34 @@ static void DisplayCommandDetails(string command, List<Dictionary<string, Tuple<
             Console.ReadKey();
             DisplayClear();
         }
-
         else return;
 
     } while (detailInput != "");
-
-    // Czyszczenie konsoli
-    DisplayClear();
 }
-
-// Metoda wyświetlająca opis komendy
+// Funkcja do wyświetlania opisu wybranej komendy
 static void DisplayCommandDescription(string command, Dictionary<string, Tuple<string, string, string, string>> commands)
 {
     Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine("OPIS");
+    Console.WriteLine("OPIS\n");
     Console.ResetColor();
-    Console.WriteLine();
-    Console.WriteLine($"{commands[command].Item4}");
-    Console.WriteLine();
+    Console.WriteLine($"{commands[command].Item4}\n");
 }
-
-// Metoda wyświetlająca składnię komendy
+// Funkcja do wyświetlania składni wybranej komendy
 static void DisplayCommandSyntax(string command, Dictionary<string, Tuple<string, string, string, string>> commands)
 {
     Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine("SKŁADNIA");
-    Console.WriteLine();
+    Console.WriteLine("SKŁADNIA\n");
     Console.ForegroundColor = ConsoleColor.Yellow;
     Console.WriteLine(commands[command].Item3);
     Console.ResetColor();
     Console.WriteLine();
 }
-
-// Metoda wyświetlająca parametry komendy
+// Funkcja do wyświetlania parametrów wybranej komendy
 static void DisplayCommandParameters(string command, Dictionary<string, Tuple<string, string, string, string>> parameters)
 {
     Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine($"OPCJE");
+    Console.WriteLine("OPCJE\n");
     Console.ResetColor();
-    Console.WriteLine();
     foreach (var item in parameters.Where(item => item.Value.Item1 == command))
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
@@ -175,14 +145,12 @@ static void DisplayCommandParameters(string command, Dictionary<string, Tuple<st
         Console.WriteLine(WordWrap(item.Value.Item4));
     }
 }
-
-// Metoda wyświetlająca przykłady użycia komendy
+// Funkcja do wyświetlania przykładów użycia wybranej komendy
 static void DisplayCommandExamples(string command, Dictionary<string, Tuple<string, string, string, string>> examples)
 {
     Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine("PRZYKŁADY");
+    Console.WriteLine("PRZYKŁADY\n");
     Console.ResetColor();
-    Console.WriteLine();
 
     foreach (var item in examples.Where(item => item.Value.Item1 == command))
     {
@@ -199,18 +167,16 @@ static void DisplayCommandExamples(string command, Dictionary<string, Tuple<stri
         Console.WriteLine();
     }
 }
-
-// Metoda łamiąca text na szerokość okna terminala pomniejszoną o 5 znaków
-static string WordWrap(string text)
+// Funkcja do zawijania tekstu na podstawie szerokości konsoli
+static string WordWrap(string text, int edgeOffset = -5)
 {
-    string[] akapity = text.Split('\n');
+    string[] paragraphs = text.Split('\n');
     string result = "  ";
     int lineLength = 0;
-    int maxLength = Console.WindowWidth - 5;
-    foreach (string akapit in akapity)
+    int maxLength = Console.WindowWidth + edgeOffset;
+    foreach (string paragraph in paragraphs)
     {
-        string[] words = akapit.Split(' ');
-        
+        string[] words = paragraph.Split(' ');
 
         foreach (string word in words)
         {
@@ -229,9 +195,8 @@ static string WordWrap(string text)
 
     return result;
 }
-
-    // Metoda czyszcząca konsolę
-    static void DisplayClear()
+// Funkcja do czyszczenia konsoli
+static void DisplayClear()
 {
     Console.Clear();
     Console.WriteLine("\x1b[3J");

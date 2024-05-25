@@ -17,22 +17,25 @@ using (var dbConnection = new DatabaseConnection("GitHub_Helper"))
 // Funkcja do przetwarzania wejścia użytkownika
 static void ProcessUserInput(List<Dictionary<string, Tuple<string, string, string, string>>> resultsList)
 {
-    string userInput;
+    string? userInput = "";
     do
     {
         DisplayCommands(resultsList[0]);
-        userInput = Console.ReadLine() ?? "";
+        userInput = Console.ReadLine();
 
-        if (resultsList[0].TryGetValue(userInput, out Tuple<string, string, string, string>? value))
+        while (userInput != null && !resultsList[0].ContainsKey(userInput) && userInput != "koniec")
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Nie rozpoznano wprowadzonej komendy. Proszę wpisać numer komendy z listy dostępnych komend lub wpisz 'koniec', aby zakończyć program: ");
+            Console.ResetColor();
+            userInput = Console.ReadLine();
+        }
+
+        if (userInput != null &&  resultsList[0].TryGetValue(userInput, out Tuple<string, string, string, string>? value))
         {
             DisplayCommandDetails(userInput, resultsList);
         }
-        else if (userInput != "koniec")
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("Nie rozpoznano wprowadzonej komendy. Proszę wpisać numer komendy z listy dostępnych komend lub wpisz 'koniec', aby zakończyć program: "); ;
-            Console.ResetColor();
-        }
+      
     }
     while (userInput != "koniec");
 }
@@ -109,7 +112,7 @@ static void DisplayCommandDetails(string command, List<Dictionary<string, Tuple<
             Console.ReadKey();
             DisplayClear();
         }
-        else return;
+        else { DisplayClear(); return; }
 
     } while (detailInput != "");
 }
@@ -167,7 +170,7 @@ static void DisplayCommandExamples(string command, Dictionary<string, Tuple<stri
             Console.ResetColor();
         }
         if (!string.IsNullOrWhiteSpace(item.Value.Item4))
-            Console.WriteLine($"{item.Value.Item4}\n\n");
+            Console.WriteLine($"{item.Value.Item4}\n");
            
     }
 }

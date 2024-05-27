@@ -160,17 +160,17 @@ static void DisplayCommandExamples(string command, Dictionary<string, Tuple<stri
         if (!string.IsNullOrWhiteSpace(item.Value.Item2))
         {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine($"{item.Value.Item2}\n");
+            Console.WriteLine($"{item.Value.Item2}");
             Console.ResetColor();
         }
         if (!string.IsNullOrWhiteSpace(item.Value.Item3))
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"{item.Value.Item3}\n");
+            Console.WriteLine($"   {item.Value.Item3}");
             Console.ResetColor();
         }
         if (!string.IsNullOrWhiteSpace(item.Value.Item4))
-            Console.WriteLine($"{item.Value.Item4}\n");
+            Console.WriteLine($"{item.Value.Item4}\n\n");
            
     }
 }

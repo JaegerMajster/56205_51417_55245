@@ -28,7 +28,7 @@ Aplikacja korzysta z bazy danych SQLite (`GitHub_Helper.db`) z następującymi t
 2. **ParametryKomend**: Przechowuje parametry dla każdej komendy.
 3. **PrzykladyKomend**: Przechowuje przykłady dla każdej komendy.
 
-![Struktura bazy danych](./path_to_image/image.png)
+Szczegółowy opis struktury bazy danych znajduje się w pliku [DATABASE_STRUCTURE.md](./DATABASE_STRUCTURE.md).
 
 ## Instalacja
 

@@ -41,4 +41,4 @@ Przechowuje przykłady użycia komend Git.
 
 ### Zrzut ekranu struktury bazy danych
 
-![Struktura bazy danych](./path_to_image/image.png)
+![Struktura bazy danych](./path_to_image/Database_Structure.png)

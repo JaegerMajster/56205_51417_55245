@@ -1,30 +1,88 @@
+
 # GitHub Helper
 
-GitHub Helper to program, który zawiera opis komend w Git. Program pozwala u¿ytkownikowi wpisaæ numer komendy, któr¹ chce zobaczyæ, a nastêpnie wyœwietla mu szczegó³owe informacje o danej komendzie.
+## PrzeglÄ…d
 
-## Jak to dzia³a
+GitHub Helper to aplikacja napisana w .NET, zaprojektowana w celu pomagania uÅ¼ytkownikom w korzystaniu z komend i parametrÃ³w GitHub. Aplikacja korzysta z bazy danych SQLite do przechowywania i pobierania informacji o komendach, parametrach i przykÅ‚adach.
 
-Program ³¹czy siê z baz¹ danych SQLite za pomoc¹ klasy `DatabaseConnection` i wykonuje zapytania SQL, aby pobraæ listê dostêpnych komend Git, ich parametrów i przyk³adów u¿ycia.
+## Spis treÅ›ci
 
-U¿ytkownik wprowadza numer komendy, któr¹ chce u¿yæ, a program wyœwietla szczegó³owe informacje o tej komendzie, takie jak jej sk³adnia, opis, dostêpne parametry i przyk³ady u¿ycia.
+- [PrzeglÄ…d](#przeglÄ…d)
+- [Funkcje](#funkcje)
+- [Struktura bazy danych](#struktura-bazy-danych)
+- [Instalacja](#instalacja)
+- [UÅ¼ycie](#uÅ¼ycie)
+- [Licencja](#licencja)
 
-Jeœli u¿ytkownik wprowadzi niepoprawn¹ komendê, program wyœwietli komunikat o b³êdzie i poprosi o wprowadzenie poprawnej komendy.
+## Funkcje
 
-## Uruchomienie aplikacji
+- UdostÄ™pnia listÄ™ komend Git.
+- WyÅ›wietla parametry zwiÄ…zane z kaÅ¼dÄ… komendÄ….
+- Pokazuje przykÅ‚ady uÅ¼ycia kaÅ¼dej komendy.
 
-Aby uruchomiæ aplikacjê, wykonaj nastêpuj¹ce kroki:
+## Struktura bazy danych
 
-1. Sklonuj repozytorium lub pobierz pliki z repozytorium GitHub.
-2. PrzejdŸ do folderu `publish/win-x64`.
-3. Uruchom plik `GitHub_Helper.exe`.
-4. Zobaczysz listê dostêpnych komend Git.
-5. Wpisz numer komendy, aby wyœwietliæ jej szczegó³y.
-6. Jeœli chcesz zakoñczyæ, wpisz s³owo 'koniec'.
+Aplikacja korzysta z bazy danych SQLite (`GitHub_Helper.db`) z nastÄ™pujÄ…cymi tabelami:
 
-## Architektura
+1. **KomendyGit**: Przechowuje komendy Git.
+2. **ParametryKomend**: Przechowuje parametry dla kaÅ¼dej komendy.
+3. **PrzykladyKomend**: Przechowuje przykÅ‚ady dla kaÅ¼dej komendy.
 
-Program korzysta z klasy `DatabaseConnection` do nawi¹zania po³¹czenia z baz¹ danych SQLite i wykonania zapytañ SQL. Wyniki zapytañ s¹ przechowywane w s³owniku i wykorzystywane do wyœwietlania dostêpnych komend Git oraz ich szczegó³ów.
+![Struktura bazy danych](./path_to_image/image.png)
 
-## Wymagania
+## Instalacja
 
-Program wymaga dostêpu do bazy danych SQLite z tabelami `KomendyGit`, `ParametryKomend` i `PrzykladyKomend`. Baza danych jest obs³ugiwana przez klasê `DatabaseConnection`, która otwiera po³¹czenie z baz¹ danych, wykonuje zapytania SQL i zwraca wyniki.
+Wykonaj poniÅ¼sze kroki, aby skonfigurowaÄ‡ i uruchomiÄ‡ aplikacjÄ™:
+
+1. **Sklonuj repozytorium**
+   ```bash
+   git clone https://github.com/JaegerMajster/56205_51417_55245.git
+   ```
+
+2. **PrzejdÅº do katalogu projektu**
+   ```bash
+   cd github-helper
+   ```
+
+3. **OtwÃ³rz projekt w Visual Studio**
+   OtwÃ³rz `GitHub Helper.csproj` w Visual Studio.
+
+4. **PrzywrÃ³Ä‡ pakiety NuGet**
+   Visual Studio powinno automatycznie przywrÃ³ciÄ‡ niezbÄ™dne pakiety NuGet. JeÅ›li nie, przywrÃ³Ä‡ je rÄ™cznie, uÅ¼ywajÄ…c:
+   ```bash
+   dotnet restore
+   ```
+
+5. **Zbuduj projekt**
+   Zbuduj projekt, wybierajÄ…c `Build` > `Build Solution` w Visual Studio lub uÅ¼ywajÄ…c polecenia:
+   ```bash
+   dotnet build
+   ```
+
+## UÅ¼ycie
+
+Aby uruchomiÄ‡ aplikacjÄ™, moÅ¼esz pobraÄ‡ najnowszÄ… wersjÄ™ z [Releases page](https://github.com/JaegerMajster/56205_51417_55245/releases/tag/v0.98) lub zbudowaÄ‡ i uruchomiÄ‡ jÄ… z kodu ÅºrÃ³dÅ‚owego.
+
+### Uruchamianie z kodu ÅºrÃ³dÅ‚owego
+
+Aby uruchomiÄ‡ aplikacjÄ™ z kodu ÅºrÃ³dÅ‚owego, uÅ¼yj funkcji debugowania Visual Studio lub wykonaj nastÄ™pujÄ…ce polecenie w terminalu:
+```bash
+dotnet run --project GitHub Helper.csproj
+```
+
+Upewnij siÄ™, Å¼e plik bazy danych SQLite (`GitHub_Helper.db`) znajduje siÄ™ w tym samym katalogu co plik wykonywalny lub podaj wÅ‚aÅ›ciwÄ… Å›cieÅ¼kÄ™ w stringu poÅ‚Ä…czenia w `DatabaseConnection.cs`.
+
+### Uruchamianie z wersji
+
+1. **Pobierz najnowszÄ… wersjÄ™**
+   Pobierz najnowszÄ… wersjÄ™ z [Releases page](https://github.com/JaegerMajster/56205_51417_55245/releases/tag/v0.98).
+
+2. **Wypakuj pobrane archiwum**
+   Wypakuj zawartoÅ›Ä‡ pobranego archiwum.
+
+3. **Uruchom plik wykonywalny**
+   PrzejdÅº do wypakowanego folderu i uruchom plik `GitHub Helper.exe`.
+
+## Licencja
+
+Ten projekt jest licencjonowany na podstawie licencji MIT - zobacz plik [LICENSE](LICENSE) po wiÄ™cej szczegÃ³Å‚Ã³w.

@@ -19,6 +19,13 @@ public class DatabaseConnection : IDisposable
         _connection.Open();
     }
 
+    // Dodatkowy konstruktor przyjmujący istniejące połączenie SQLite
+    public DatabaseConnection(SqliteConnection connection)
+    {
+        _connection = connection;
+        _connection.Open();
+    }
+
     // Metoda wykonująca zapytania do bazy danych i zwracająca wyniki
     public List<Dictionary<string, Tuple<string, string, string, string>>> ExecuteQueriesAndReturnResults(params string[] queries)
     {

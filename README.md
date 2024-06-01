@@ -3,7 +3,7 @@
 
 ## Przegląd
 
-GitHub Helper to aplikacja napisana w .NET, zaprojektowana w celu pomagania użytkownikom w korzystaniu z komend i parametrów GitHub. Aplikacja korzysta z bazy danych SQLite do przechowywania i pobierania informacji o komendach, parametrach i przykładach.
+GitHub Helper to aplikacja napisana w .NET, zaprojektowana w celu pomagania użytkownikom w korzystaniu z komend i parametrów Git. Aplikacja korzysta z bazy danych SQLite do przechowywania i pobierania informacji o komendach, parametrach i przykładach.
 
 ## Spis treści
 

@@ -8,7 +8,8 @@ GitHub Helper to aplikacja napisana w .NET, zaprojektowana w celu pomagania uży
 ## Spis treści
 
 - [Przegląd](#przegląd)
-- [Funkcje](#funkcje)
+- [Wymagania funkcjonalne](#wymagania_funckjonalne)
+- [Wymagania niefunkcjonalne](#wymagania_niefunckjonalne)
 - [Struktura bazy danych](#struktura-bazy-danych)
 - [Instalacja](#instalacja)
 - [Użycie](#użycie)
@@ -22,6 +23,11 @@ GitHub Helper to aplikacja napisana w .NET, zaprojektowana w celu pomagania uży
 - Użytkownik może sprawdzić składnię danej komendy.
 - Użytkownik może sprawdzić parametry danej komendy.
 - Użytkownik może przyjrzeć się kilku przykładom użycia danej komendy.
+
+## Wymagania niefunckjonalne
+
+- Aplikacja konsolowa.
+- Aplikacja posiada bazę danych.
 
 ## Struktura bazy danych
 

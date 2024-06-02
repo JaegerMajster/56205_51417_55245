@@ -14,11 +14,14 @@ GitHub Helper to aplikacja napisana w .NET, zaprojektowana w celu pomagania uży
 - [Użycie](#użycie)
 - [Licencja](#licencja)
 
-## Funkcje
+## Wymagania funckjonalne
 
-- Udostępnia listę komend Git.
-- Wyświetla parametry związane z każdą komendą.
-- Pokazuje przykłady użycia każdej komendy.
+- Użytkownik ma dostęp do listy najważniejszych komend Gita.
+- Użytkownik ma możliwość przyjrzenia się szczegółom poszczególnych komend.
+- Użytkownik może zapoznać się z dokładnym opisem danej komendy.
+- Użytkownik może sprawdzić składnię danej komendy.
+- Użytkownik może sprawdzić parametry danej komendy.
+- Użytkownik może przyjrzeć się kilku przykładom użycia danej komendy.
 
 ## Struktura bazy danych
 
